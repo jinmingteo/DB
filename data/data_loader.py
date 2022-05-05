@@ -6,7 +6,7 @@ import numpy as np
 
 import torch
 import torch.distributed as dist
-from torch.utils.data import Sampler, ConcatDataset, BatchSampler
+from torch.utils.data import Sampler, ConcatDataset, BatchSampler, Dataset
 
 from concern.config import Configurable, State
 
@@ -15,8 +15,10 @@ def default_worker_init_fn(worker_id):
     np.random.seed(worker_id)
     imgaug.seed(worker_id)
 
+class _Meta(type(Dataset), type(Configurable)):
+    pass
 
-class DataLoader(Configurable, torch.utils.data.DataLoader):
+class DataLoader(Configurable, torch.utils.data.DataLoader, metaclass=_Meta):
     dataset = State()
     batch_size = State(default=256)
     num_workers = State(default=10)
@@ -177,7 +179,7 @@ class InfiniteOrderedSampler(Sampler):
         return self.limit_size
 
 
-class InfiniteDataLoader(Configurable, torch.utils.data.DataLoader):
+class InfiniteDataLoader(Configurable, torch.utils.data.DataLoader, metaclass=_Meta):
     dataset = State()
     batch_size = State(default=256)
     num_workers = State(default=10)
@@ -219,7 +221,7 @@ class RandomSampleSampler(Sampler):
         return self.size
 
 
-class RandomSampleDataLoader(Configurable, torch.utils.data.DataLoader):
+class RandomSampleDataLoader(Configurable, torch.utils.data.DataLoader, metaclass=_Meta):
     datasets = State()
     weights = State()
     batch_size = State(default=256)

@@ -9,7 +9,10 @@ import glob
 from concern.config import Configurable, State
 import math
 
-class ImageDataset(data.Dataset, Configurable):
+class _Meta(type(data.Dataset), type(Configurable)):
+    pass
+
+class ImageDataset(data.Dataset, Configurable, metaclass=_Meta):
     r'''Dataset reading from images.
     Args:
         Processes: A series of Callable object, which accept as parameter and return the data dict,
