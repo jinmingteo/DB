@@ -186,6 +186,7 @@ class Eval:
                         self.logger.save_image_dict(vis_image)
                         vis_images.update(vis_image)
                 metrics = self.structure.measurer.gather_measure(raw_metrics, self.logger)
+                self.logger.info(f'box_thresh: {self.args["box_thresh"]}')
                 for key, metric in metrics.items():
                     self.logger.info('%s : %f (%d)' % (key, metric.avg, metric.count))
 

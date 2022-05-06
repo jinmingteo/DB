@@ -170,8 +170,12 @@ class Trainer:
         for i, batch in tqdm(enumerate(data_loader), total=len(data_loader)):
             pred = model.forward(batch, training=False)
             output = self.structure.representer.represent(batch, pred)
-            raw_metric, interested = self.structure.measurer.validate_measure(
-                batch, output)
+            try:
+                raw_metric, interested = self.structure.measurer.validate_measure(
+                    batch, output)
+            except:
+                raw_metric = self.structure.measurer.validate_measure(
+                    batch, output)
             raw_metrics.append(raw_metric)
 
             if visualize and self.structure.visualizer:
