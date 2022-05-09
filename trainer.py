@@ -172,10 +172,10 @@ class Trainer:
             output = self.structure.representer.represent(batch, pred)
             try:
                 raw_metric, interested = self.structure.measurer.validate_measure(
-                    batch, output)
+                    batch, output, box_thresh=0.5)
             except:
                 raw_metric = self.structure.measurer.validate_measure(
-                    batch, output)
+                    batch, output, box_thresh=0.5)
             raw_metrics.append(raw_metric)
 
             if visualize and self.structure.visualizer:
