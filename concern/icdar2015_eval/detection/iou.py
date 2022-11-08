@@ -6,7 +6,8 @@ from shapely.geometry import Polygon
 
 
 class DetectionIoUEvaluator(object):
-    def __init__(self, iou_constraint=0.5, area_precision_constraint=0.5):
+    def __init__(self, iou_constraint=0.3, area_precision_constraint=0.5):
+        print ('IoU_constraint' , iou_constraint)
         self.iou_constraint = iou_constraint
         self.area_precision_constraint = area_precision_constraint
 
@@ -214,7 +215,18 @@ if __name__ == '__main__':
         'points': [(0.1, 0.1), (1, 0), (1, 1), (0, 1)],
         'text': 123,
         'ignore': False,
-    }]]
+    },
+     {
+        'points': [(2, 2), (3, 2), (3, 3), (2, 3)],
+        'text': 5678,
+        'ignore': False,
+    },
+    {
+        'points': [(0.1, 0.1), (1, 0), (1, 1), (0, 1)],
+        'text': 123,
+        'ignore': False,
+    }
+    ]]
     results = []
     for gt, pred in zip(gts, preds):
         results.append(evaluator.evaluate_image(gt, pred))
